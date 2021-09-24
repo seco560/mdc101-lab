@@ -1,6 +1,3 @@
 # MDC-100 Series of Codelabs
 
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+This is my version of it, following along with https://codelabs.developers.google.com/codelabs/mdc-101-flutter
