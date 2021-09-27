@@ -24,10 +24,28 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
+  final _unfocusedColor = Colors.grey[600];
+  final _usernameFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
 
   void _handleDummyOnPressed() {
     _usernameTextController.clear();
     _passwordTextController.clear();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameFocusNode.addListener(() {
+      setState(() {
+        // redraw differently when focused
+      });
+    });
+    _passwordFocusNode.addListener(() {
+      setState(() {
+        // redraw differently when focused
+      });
+    });
   }
 
   @override
@@ -42,27 +60,39 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Image.asset('assets/diamond.png'),
                 const SizedBox(height: 16.0),
-                const Text('SHRINE'),
+                Text('SHRINE', style: Theme.of(context).textTheme.headline5),
               ],
             ),
             const SizedBox(height: 120.0),
             // TODO: Wrap Username with AccentColorOverride (103)
-            // TODO: Remove filled: true values (103)
             // TODO: Wrap Password with AccentColorOverride (103)
             TextField(
-                controller: _usernameTextController,
-                decoration: const InputDecoration(
-                    hintText: "Username",
-                    filled: true,
-                    label: Text("Enter your email or username"))),
+              controller: _usernameTextController,
+              decoration: InputDecoration(
+                hintText: "Username",
+                labelStyle: TextStyle(
+                  color: _usernameFocusNode.hasFocus
+                      ? Theme.of(context).colorScheme.secondary
+                      : _unfocusedColor,
+                ),
+                labelText: "Enter your email or username",
+              ),
+              focusNode: _usernameFocusNode,
+            ),
             const SizedBox(height: 16.0),
             TextField(
               controller: _passwordTextController,
-              decoration: const InputDecoration(
-                  hintText: "Make sure no one knows it!",
-                  filled: true,
-                  label: Text("Password")),
+              decoration: InputDecoration(
+                hintText: "Make sure no one knows it!",
+                labelStyle: TextStyle(
+                  color: _passwordFocusNode.hasFocus
+                      ? Theme.of(context).colorScheme.secondary
+                      : _unfocusedColor,
+                ),
+                labelText: "Password",
+              ),
               obscureText: true,
+              focusNode: _passwordFocusNode,
             ),
             const SizedBox(height: 16.0),
             ButtonBar(
@@ -81,8 +111,11 @@ class _LoginPageState extends State<LoginPage> {
                       _handleDummyOnPressed();
                       Navigator.pop(context);
                     },
+                    style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(8.0),
+                    ),
                     child: const Text(
-                      'Let Me In',
+                      'Shop',
                       style: TextStyle(fontSize: 22.0),
                     )),
               ],
